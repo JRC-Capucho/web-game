@@ -11,8 +11,8 @@ for (let i = 0; i < collisions.length; i += 32) {
 }
 
 class Boundary {
-  static width = 128 // tamanho do mapa vezes o zoom 32 largura com 4 por causa do zoom de 400 
-  static height = 128 // "" 32 de altura ""
+  static width = 128; // tamanho do mapa vezes o zoom 32 largura com 4 por causa do zoom de 400
+  static height = 128; // "" 32 de altura ""
   constructor({ position }) {
     this.position = position;
     this.width = 128;
@@ -27,9 +27,9 @@ class Boundary {
 const boundaries = [];
 
 const offset = {
-    x: -1666,
-    y: -2250,
-}
+  x: -1666,
+  y: -2250,
+};
 
 collisionsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
@@ -39,12 +39,11 @@ collisionsMap.forEach((row, i) => {
           position: {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
-        },
-      })
-    );
+          },
+        })
+      );
   });
 });
-
 
 const image = new Image();
 image.src = "./img/Map-1.png"; // fonte image
@@ -114,7 +113,6 @@ class Sprite {
   }
 }
 
-
 const referencePoint = new Sprite({
   position: {
     x: offset.x,
@@ -127,9 +125,9 @@ const referencePoint = new Sprite({
 function animation() {
   window.requestAnimationFrame(animation);
   referencePoint.draw();
-  boundaries.forEach(boundary => {
-    boundary.draw()
-  })
+  boundaries.forEach((boundary) => {
+    boundary.draw();
+  });
 
   // Montar a imagem
   c.drawImage(
