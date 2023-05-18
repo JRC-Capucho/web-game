@@ -10,20 +10,6 @@ for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, 32 + i));
 }
 
-class Boundary {
-  static width = 128; // tamanho do mapa vezes o zoom 32 largura com 4 por causa do zoom de 400
-  static height = 128; // "" 32 de altura ""
-  constructor({ position }) {
-    this.position = position;
-    this.width = 128;
-    this.height = 128;
-  }
-  draw() {
-    // c.fillStyle = "rba(255,0,0,0.0)";
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
-}
-
 const boundaries = [];
 
 const offset = {
@@ -47,6 +33,9 @@ collisionsMap.forEach((row, i) => {
 
 const image = new Image();
 image.src = "./img/mapa_teste.png"; // fonte image
+
+// const foregroundImage = new Image();
+// foregroundImage.src "./img/foreground_mapa.png"
 
 const playerImage = new Image();
 playerImage.src = "./img/player.png"; // fonte da imagem
@@ -114,32 +103,6 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
-class Sprite {
-  constructor({ position, image, frames = { max: 1 } }) {
-    this.position = position;
-    this.image = image;
-    this.frames = frames;
-    this.image.onload = () => {
-      this.width = this.image.width / this.frames.max;
-      this.height = this.image.height;
-    };
-  }
-
-  draw() {
-    c.drawImage(
-      this.image,
-      0, // Inicio do sprite
-      0, // Altura do sprite
-      this.image.width / this.frames.max, // Recorde do sprite vertical
-      this.image.height, // Recorde do sprite na horizontal
-      this.position.x,
-      this.position.y,
-      this.image.width / this.frames.max,
-      this.image.height
-    );
-  }
-}
-
 const player = new Sprite({
   position: {
     //                    128 dimensao da imagem do perso
@@ -160,6 +123,14 @@ const referencePoint = new Sprite({
   image: image,
 });
 
+// const foreground = new Sprinte({
+//   position: {
+//     x: offset.x,
+//     y: offset.y,
+//   },
+//   image: foregroundImage,
+// });
+//
 // colisao
 
 function rectagularCollision({ rectangle1, rectangle2 }) {
@@ -171,7 +142,11 @@ function rectagularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
-const movables = [referencePoint, ...boundaries];
+const movables = [
+  referencePoint,
+  ...boundaries,
+  //  foreground
+];
 
 // Animação
 function animation() {
@@ -183,6 +158,7 @@ function animation() {
   });
 
   player.draw();
+  // foreground.show();
 
   let moving = true;
   if (keys.w.pressed) {
