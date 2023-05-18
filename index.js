@@ -37,8 +37,11 @@ image.src = "./img/mapa_teste.png"; // fonte image
 const foregroundImage = new Image();
 foregroundImage.src = "./img/foreground_mapa.png";
 
-const playerImage = new Image();
-playerImage.src = "./img/troia.png"; // fonte da imagem
+const playerImageRight = new Image();
+playerImageRight.src = "./img/troia.png"; // fonte da imagem
+
+const playerImageLeft = new Image();
+playerImageLeft.src = "./img/troia-left.png"; // fonte da imagem
 
 // Configuração de controle
 const keys = {
@@ -109,9 +112,13 @@ const player = new Sprite({
     x: canvas.width / 2 - 672 / 4 / 2, // coordenada X,
     y: canvas.height / 2 - 96 / 2, // coordenada Y
   },
-  image: playerImage, // fonte da imagem
+  image: playerImageRight, // fonte da imagem
   frames: {
     max: 7, // quantidade de sprites na imagem
+  },
+  sprites: {
+    right: playerImageRight,
+    left: playerImageLeft,
   },
 });
 
@@ -156,7 +163,9 @@ function animation() {
   foreground.draw();
 
   let moving = true;
+  player.moving = false;
   if (keys.w.pressed) {
+    player.moving = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -182,6 +191,7 @@ function animation() {
       });
   }
   if (keys.s.pressed) {
+    player.moving = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -206,6 +216,8 @@ function animation() {
       });
   }
   if (keys.a.pressed) {
+    player.moving = true;
+    player.image = player.sprites.left; // mudar de sprite
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -230,6 +242,8 @@ function animation() {
       });
   }
   if (keys.d.pressed) {
+    player.moving = true;
+    player.image = player.sprites.right; // mudar de sprite
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
