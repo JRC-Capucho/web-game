@@ -10,13 +10,32 @@ for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, 32 + i));
 }
 
-const boundaries = [];
+const interactsMap = [];
+for (let i = 0; i < interacts.length; i += 32) {
+  interactsMap.push(interacts.slice(i, 32 + i));
+}
 
 const offset = {
   x: -1300,
   y: -1700,
 };
 
+const interactsArray = [];
+interactsMap.forEach((row, i) => {
+  row.forEach((Symbol, j) => {
+    if (Symbol === 290)
+      interactsArray.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+        })
+      );
+  });
+});
+
+const boundaries = [];
 collisionsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
     if (Symbol === 290)
@@ -148,7 +167,16 @@ function rectagularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
-const movables = [referencePoint, ...boundaries, foreground];
+function rectagularInteract({ rectangle1, rectangle2 }) {
+  return (
+    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
+    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
+    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
+    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
+  );
+}
+
+const movables = [referencePoint, ...boundaries, foreground, ...interactsArray];
 
 // Animação
 function animation() {
@@ -157,6 +185,10 @@ function animation() {
 
   boundaries.forEach((boundary) => {
     boundary.draw();
+  });
+
+  interactsArray.forEach((interact) => {
+    interact.draw();
   });
 
   player.draw();
@@ -175,7 +207,7 @@ function animation() {
             ...boundary,
             position: {
               x: boundary.position.x,
-              y: boundary.position.y + 3,
+              y: boundary.position.y + 4,
             },
           },
         })
@@ -183,11 +215,11 @@ function animation() {
         // myAlert("Colisao");
         moving = false;
         break;
-      } else moving = true;
+      }
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.y += 3;
+        movable.position.y += 4;
       });
   }
   if (keys.s.pressed) {
@@ -201,18 +233,18 @@ function animation() {
             ...boundary,
             position: {
               x: boundary.position.x,
-              y: boundary.position.y - 3,
+              y: boundary.position.y - 4,
             },
           },
         })
       ) {
         moving = false;
         break;
-      } else moving = true;
+      }
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.y -= 3;
+        movable.position.y -= 4;
       });
   }
   if (keys.a.pressed) {
@@ -226,7 +258,7 @@ function animation() {
           rectangle2: {
             ...boundary,
             position: {
-              x: boundary.position.x + 3,
+              x: boundary.position.x + 4,
               y: boundary.position.y,
             },
           },
@@ -234,11 +266,11 @@ function animation() {
       ) {
         moving = false;
         break;
-      } else moving = true;
+      }
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.x += 3;
+        movable.position.x += 4;
       });
   }
   if (keys.d.pressed) {
@@ -252,7 +284,7 @@ function animation() {
           rectangle2: {
             ...boundary,
             position: {
-              x: boundary.position.x - 3,
+              x: boundary.position.x - 4,
               y: boundary.position.y,
             },
           },
@@ -260,12 +292,27 @@ function animation() {
       ) {
         moving = false;
         break;
-      } else moving = true;
+      }
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.x -= 3;
+        movable.position.x -= 4;
       });
+  }
+  if (keys.e.pressed) {
+    for (let i = 0; i < interactsArray.length; i++) {
+      const interact = interactsArray[i];
+      if (
+        rectagularCollision({
+          rectangle1: player,
+          rectangle2: interact,
+        })
+      ) {
+        myAlert("Alert complete");
+        console.log("collision");
+        keys.e.pressed = false;
+      }
+    }
   }
 }
 
