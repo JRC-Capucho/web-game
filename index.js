@@ -34,11 +34,11 @@ collisionsMap.forEach((row, i) => {
 const image = new Image();
 image.src = "./img/mapa_teste.png"; // fonte image
 
-// const foregroundImage = new Image();
-// foregroundImage.src "./img/foreground_mapa.png"
+const foregroundImage = new Image();
+foregroundImage.src = "./img/foreground_mapa.png";
 
 const playerImage = new Image();
-playerImage.src = "./img/player.png"; // fonte da imagem
+playerImage.src = "./img/troia.png"; // fonte da imagem
 
 // Configuração de controle
 const keys = {
@@ -105,13 +105,13 @@ window.addEventListener("keyup", (e) => {
 
 const player = new Sprite({
   position: {
-    //                    128 dimensao da imagem do perso
-    x: canvas.width / 2 - 128 / 4 / 2, // coordenada X,
-    y: canvas.height / 2 - 128 / 2, // coordenada Y
+    //                    128 dimensao da imagem do personagem
+    x: canvas.width / 2 - 672 / 4 / 2, // coordenada X,
+    y: canvas.height / 2 - 96 / 2, // coordenada Y
   },
   image: playerImage, // fonte da imagem
   frames: {
-    max: 4, // quantidade de sprites na imagem
+    max: 7, // quantidade de sprites na imagem
   },
 });
 
@@ -123,16 +123,15 @@ const referencePoint = new Sprite({
   image: image,
 });
 
-// const foreground = new Sprinte({
-//   position: {
-//     x: offset.x,
-//     y: offset.y,
-//   },
-//   image: foregroundImage,
-// });
-//
-// colisao
+const foreground = new Sprite({
+  position: {
+    x: offset.x,
+    y: offset.y,
+  },
+  image: foregroundImage,
+});
 
+// colisao
 function rectagularCollision({ rectangle1, rectangle2 }) {
   return (
     rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -142,11 +141,7 @@ function rectagularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
-const movables = [
-  referencePoint,
-  ...boundaries,
-  //  foreground
-];
+const movables = [referencePoint, ...boundaries, foreground];
 
 // Animação
 function animation() {
@@ -158,7 +153,7 @@ function animation() {
   });
 
   player.draw();
-  // foreground.show();
+  foreground.draw();
 
   let moving = true;
   if (keys.w.pressed) {
