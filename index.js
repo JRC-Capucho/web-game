@@ -11,20 +11,22 @@ for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, 32 + i));
 }
 
+console.log(collisionsMap);
+
 const interactsMap = [];
 for (let i = 0; i < interacts.length; i += 32) {
   interactsMap.push(interacts.slice(i, 32 + i));
 }
 
 const offset = {
-  x: -1300,
-  y: -1700,
+  x: -1070,
+  y: -2000,
 };
 
 const interactsArray = [];
 interactsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
-    if (Symbol === 290)
+    if (Symbol === 530)
       interactsArray.push(
         new Boundary({
           position: {
@@ -39,7 +41,7 @@ interactsMap.forEach((row, i) => {
 const boundaries = [];
 collisionsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
-    if (Symbol === 290)
+    if (Symbol === 274)
       boundaries.push(
         new Boundary({
           position: {
@@ -51,11 +53,13 @@ collisionsMap.forEach((row, i) => {
   });
 });
 
+console.log(boundaries);
+
 const image = new Image();
-image.src = "./img/mapa_teste.png"; // fonte image
+image.src = "./img/map.png"; // fonte image
 
 const foregroundImage = new Image();
-foregroundImage.src = "./img/foreground_mapa.png";
+foregroundImage.src = "./img/map-foreground.png";
 
 const playerImageRight = new Image();
 playerImageRight.src = "./img/troia.png"; // fonte da imagem
