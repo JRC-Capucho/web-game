@@ -1,8 +1,9 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-canvas.width = 1024;
-canvas.height = 1000;
+canvas.width = 1640;
+// canvas.width = 1024;
+canvas.height = 904;
 
 const collisionsMap = [];
 
@@ -196,7 +197,7 @@ function animation() {
 
   let moving = true;
   player.moving = false;
-  if (keys.w.pressed) {
+  if (keys.w.pressed && lastKey === "w") {
     player.moving = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -222,7 +223,7 @@ function animation() {
         movable.position.y += 4;
       });
   }
-  if (keys.s.pressed) {
+  if (keys.s.pressed && lastKey === "s") {
     player.moving = true;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -247,7 +248,7 @@ function animation() {
         movable.position.y -= 4;
       });
   }
-  if (keys.a.pressed) {
+  if (keys.a.pressed && lastKey === "a") {
     player.moving = true;
     player.image = player.sprites.left; // mudar de sprite
     for (let i = 0; i < boundaries.length; i++) {
@@ -273,7 +274,7 @@ function animation() {
         movable.position.x += 4;
       });
   }
-  if (keys.d.pressed) {
+  if (keys.d.pressed && lastKey === "d") {
     player.moving = true;
     player.image = player.sprites.right; // mudar de sprite
     for (let i = 0; i < boundaries.length; i++) {
@@ -309,11 +310,19 @@ function animation() {
         })
       ) {
         myAlert("Alert complete");
-        console.log("collision");
-        keys.e.pressed = false;
       }
     }
   }
+  keys.e.pressed = false;
 }
 
 animation();
+
+// Audio
+let clicked = false;
+addEventListener("click", () => {
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
+  }
+});
