@@ -313,11 +313,11 @@ function animation() {
           rectangle2: interact,
         })
       ) {
-        myAlert("Alert complete");
+        myAlert("Teste");
       }
     }
+    keys.e.pressed = false;
   }
-  keys.e.pressed = false;
 }
 
 animation();
