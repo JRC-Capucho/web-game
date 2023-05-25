@@ -1,10 +1,52 @@
-<style>
-  body {
-    background-color: black;
-  }
-</style>
+<head>
+  <link rel="stylesheet" href="./_css/game-main.css">
+</head>
 <div id="exercise"></div>
 <canvas id="map"></canvas>
+<div class="questionarie">
+					<div class="header-quest">
+						<h2>Questao 1:</h2>
+					</div>
+					<div class="body-quest">
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing
+							elit. Voluptatibus maxime ipsam magni mollitia sint
+							accusamus amet officiis deleniti nemo dignissimos
+							nostrum, temporibus totam assumenda, a corporis ad
+							aspernatur quos. Dignissimos?
+						</p>
+					</div>
+
+					<div class="answer-quest">
+						<div class="response">
+							<input
+								type="checkbox"
+								id="checkbox"
+								class="styled-checkbox"
+							/>
+							<span class="short-phrase">if () else{}</span>
+						</div>
+						<div class="response">
+							<input
+								type="checkbox"
+								id="checkbox"
+								class="styled-checkbox"
+							/>
+							<span class="short-phrase">Do while</span>
+						</div>
+						<div class="response">
+							<input
+								type="checkbox"
+								id="checkbox"
+								class="styled-checkbox"
+							/>
+							<span class="short-phrase">Switch case </span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
   integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
@@ -19,5 +61,23 @@
 
 <script src="data/interact.js"></script>
 <script src="data/collisions.js"></script>
+<script src="data/collisionsElements.js"></script>
+<script src="data/collisionsTree.js"></script>
 
 <script src="index.js"></script>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<script>
+			$(document).ready(function () {
+
+				function toggleQuestionarie() {
+					$(".questionarie").toggleClass("active");
+
+				}
+
+
+				alert("Olha o exercicio vindooooo");
+                toggleQuestionarie();
+			});
+		</script>

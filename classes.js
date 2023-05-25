@@ -44,7 +44,23 @@ class Boundary {
     this.height = 128;
   }
   draw() {
-    c.fillStyle = "rgba(255, 0, 0, 0.0)"; //"red";
+      c.fillStyle = "red";
+    // c.fillStyle = "rgba(255, 0, 0, 0.0)";
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
+class BoundaryElements {
+  static width = 128; // tamanho do mapa vezes o zoom 32 largura com 4 por causa do zoom de 400
+  static height = 128; // "" 32 de altura ""
+  constructor({ position }) {
+    this.position = position;
+    this.width = 50;
+    this.height = 50;
+  }
+  draw() {
+    c.fillStyle = "green";
+    // c.fillStyle = "rgba(255, 0, 0, 0.0)";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }

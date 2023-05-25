@@ -1,21 +1,24 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-canvas.width = 1640;
-// canvas.width = 1024;
+
+// canvas.width = 1640;
+canvas.width = 1024;
 canvas.height = 904;
 
 const collisionsMap = [];
-
 for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, 32 + i));
 }
 
-console.log(collisionsMap);
-
 const interactsMap = [];
 for (let i = 0; i < interacts.length; i += 32) {
   interactsMap.push(interacts.slice(i, 32 + i));
+}
+
+const collisionsMapElement = [];
+for (let i = 0; i < collisionsElements.length; i += 32) {
+  collisionsMapElement.push(collisionsElements.slice(i, 32 + i));
 }
 
 const offset = {
@@ -38,6 +41,21 @@ interactsMap.forEach((row, i) => {
   });
 });
 
+const boundariesElements = [];
+collisionsMapElement.forEach((row, i) => {
+  row.forEach((Symbol, j) => {
+    if (Symbol === 274)
+      boundariesElements.push(
+        new BoundaryElements({
+          position: {
+            x: j * BoundaryElements.width + offset.x,
+            y: i * BoundaryElements.height + offset.y,
+          },
+        })
+      );
+  });
+});
+
 const boundaries = [];
 collisionsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
@@ -52,8 +70,6 @@ collisionsMap.forEach((row, i) => {
       );
   });
 });
-
-console.log(boundaries);
 
 const image = new Image();
 image.src = "./img/map.png"; // fonte image
@@ -162,7 +178,7 @@ const foreground = new Sprite({
   image: foregroundImage,
 });
 
-// colisao
+// Colisao
 function rectagularCollision({ rectangle1, rectangle2 }) {
   return (
     rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -172,6 +188,17 @@ function rectagularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
+// Colisao Elementos
+function rectagularCollisionElement({ rectangle1, rectangle2 }) {
+  return (
+    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
+    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
+    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
+    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
+  );
+}
+
+// Interação
 function rectagularInteract({ rectangle1, rectangle2 }) {
   return (
     rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -181,7 +208,13 @@ function rectagularInteract({ rectangle1, rectangle2 }) {
   );
 }
 
-const movables = [referencePoint, ...boundaries, foreground, ...interactsArray];
+const movables = [
+  referencePoint,
+  ...boundaries,
+  foreground,
+  ...interactsArray,
+  ...boundariesElements,
+];
 
 // Animação
 function animation() {
@@ -194,6 +227,10 @@ function animation() {
 
   interactsArray.forEach((interact) => {
     interact.draw();
+  });
+
+  boundariesElements.forEach((Boundary) => {
+    Boundary.draw();
   });
 
   player.draw();
@@ -217,7 +254,24 @@ function animation() {
           },
         })
       ) {
-        // myAlert("Colisao");
+        moving = false;
+        break;
+      }
+    }
+    for (let i = 0; i < boundariesElements.length; i++) {
+      const boundary = boundariesElements[i];
+      if (
+        rectagularCollisionElement({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y + 4,
+            },
+          },
+        })
+      ) {
         moving = false;
         break;
       }
@@ -229,6 +283,25 @@ function animation() {
   }
   if (keys.s.pressed && lastKey === "s") {
     player.moving = true;
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        rectagularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y - 4,
+            },
+          },
+        })
+      ) {
+        moving = false;
+        break;
+      }
+    }
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
