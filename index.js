@@ -11,8 +11,6 @@ for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, 32 + i));
 }
 
-console.log(collisionsMap);
-
 const interactsMap = [];
 for (let i = 0; i < interacts.length; i += 32) {
   interactsMap.push(interacts.slice(i, 32 + i));
@@ -26,7 +24,7 @@ const offset = {
 const interactsArray = [];
 interactsMap.forEach((row, i) => {
   row.forEach((Symbol, j) => {
-    if (Symbol === 530)
+    if (Symbol === 274)
       interactsArray.push(
         new Boundary({
           position: {
@@ -52,8 +50,6 @@ collisionsMap.forEach((row, i) => {
       );
   });
 });
-
-console.log(boundaries);
 
 const image = new Image();
 image.src = "./img/map.png"; // fonte image
@@ -132,7 +128,7 @@ window.addEventListener("keyup", (e) => {
 
 const player = new Sprite({
   position: {
-    //                    128 dimensao da imagem do personagem
+    //                    {672 e 96} dimensao da imagem do personagem
     x: canvas.width / 2 - 672 / 4 / 2, // coordenada X,
     y: canvas.height / 2 - 96 / 2, // coordenada Y
   },
@@ -165,10 +161,10 @@ const foreground = new Sprite({
 // colisao
 function rectagularCollision({ rectangle1, rectangle2 }) {
   return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
+    rectangle1.position.x - 19 + rectangle1.width >= rectangle2.position.x &&
+    rectangle1.position.x <= rectangle2.position.x - 19 + rectangle2.width &&
+    rectangle1.position.y <= rectangle2.position.y - 40 + rectangle2.height &&
+    rectangle1.position.y - 19 + rectangle1.height >= rectangle2.position.y
   );
 }
 

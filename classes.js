@@ -40,11 +40,12 @@ class Boundary {
   static height = 128; // "" 32 de altura ""
   constructor({ position }) {
     this.position = position;
-    this.width = 128;
-    this.height = 128;
+    this.width = 120;
+    this.height = 100;
   }
   draw() {
-    c.fillStyle = "rgba(255, 0, 0, 0.0)"; //"red";
+    c.fillStyle = "rgba(255, 0, 0, 0.0)";
+    //c.fillStyle = "red";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
