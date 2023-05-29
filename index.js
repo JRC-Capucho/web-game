@@ -1,9 +1,9 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-canvas.width = 1640;
+canvas.width = 1280;
 // canvas.width = 1024;
-canvas.height = 904;
+canvas.height = 705;
 
 const collisionsMap = [];
 
@@ -309,13 +309,15 @@ function animation() {
           rectangle2: interact,
         })
       ) {
-        myAlert("Teste");
+        $("#exercise").fadeIn(2000);
       }
     }
     keys.e.pressed = false;
   }
 }
-
+$("#exercise button").click(function () {
+  $("#exercise").fadeOut(2000);
+});
 animation();
 
 // Audio
